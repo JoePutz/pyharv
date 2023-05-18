@@ -95,11 +95,17 @@ import json
 if len(sys.argv) != 2:
     sys.exit()
 
-response = requests.get("http://itunes.apple.com/search?entity=song&limit=1&term=" + sys.argv[1]) 
-print(json.dump(response.json(), indent=2))
+#response = requests.get("http://itunes.apple.com/search?entity=song&limit=1&term=" + sys.argv[1]) 
+#print(json.dump(response.json(), indent=2))
 #This will convert the json into a python dictionary
 #
 
-o = response.json()
-for result in o["result"]:
-    print(result["trackName"])
+#o = response.json()
+#for result in o["result"]:
+#    print(result["trackName"])
+
+from sayings import hello
+#from sayings.py import the hello function
+
+if len(sys.argv) == 2:
+    hello(sys.argv[1])

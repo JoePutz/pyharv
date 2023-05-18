@@ -72,6 +72,8 @@ def test_helloarg():
 def test_hellomany():
     for name in ["Hermione", "Harry", "Ron"]:
         assert hello(name) == f"hello, {name}"
+#You can do this. above works. But you don't want too complicated tests. Tests should be simple so we don't have to test our tests
+
 
 def test_hellodefault():
     assert hello() == "hello, world"

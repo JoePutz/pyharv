@@ -107,4 +107,60 @@ for student in sorted(students, key=get_name):
 #for every student, return the student[name]
 
 #what happens if csv has a comma in the information and not just to separate values but as part of the value?
- 
+
+import csv
+
+students = []
+
+with open("students.csv") as file:
+    reader = csv.reader(file)
+    #we get csv.reader() from import csv. this will just read the file
+    for row in reader:
+        students.append({"name": row[0], "home": row[1]})
+    #can also be written
+    #for name, home in reader:
+        #students.append({"name": name, "home": home})
+        #The name, home division will automatically split the file row into those two parts in order
+
+for student in sorted(students, key=lambda student: student["name"]):
+    print(f"{student['name']} is from {student['home']}")
+
+#If we had the csv file automatically divide the info for us
+#The FIRST LINE would read: name,home
+#Then we could rewrite the above code as follows
+with open("students.csv") as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        students.append({"name": row["name"], "home": row["home"]})
+#DictReader reads the rows as dictionaries intead of just plain reading it
+#And the first row is just going to be the titles of the columns
+
+
+import csv
+name = input("What's your name? ")
+home = input("what's your home? ")
+
+with open("students.csv", "a") as file:
+    #the a is for appending, not just reading
+    writer = csv.writer(file)
+    writer.writerow([name, home])
+    #could also use writer = csv.DictWriter(file, fieldnames=["name", "home"])
+    #writer.writerow({"name": name, "home": home})
+
+#What's the difference? with .writer() it must be done left to right in order.
+#with DictWriter the information will be formatted as fieldnames regardless of the order of info provided
+
+import sys
+
+from PIL import Image
+
+images = []
+
+for arg in sys.argv[1:]:
+    image = Image.open(arg)
+    images.append(image)
+
+images[0].save(
+    "costumes.gif", save_all=True, append_images=[images[1]], duration=200, loop=0
+)
+#The above would create a gif. Looping between multiple images when placed at the end of the terminal to call the program

@@ -111,3 +111,25 @@ url = input("URL: ").strip()
 print(url)
 username = url.replace("https://twitter.com/", "")
 #Above is saying replacing twitter.com with nothing. 
+
+#This could be a problem with the url not being 100% accurate, like www or some other thing out of the set pattern. Like if someone answers the input in a complete sentence
+
+username = url.removeprefix("httpe://twitter.com/")
+#This will only just work if it removes the prefix, or the start of the string is as listed.
+
+username = re.sub(r"^(https?:)?(www\.)?twitter\.com/", "", url)
+#substitutes twitter.com with "" from the url
+#above regex made http(s) and www. as optional in the url
+
+#lets check if good first
+
+url = input("URL: ").strip()
+
+re.search(r"^https?://(www\.)?twitter\.com/(.+)$", url, re.IGNORECASE)
+if matches:
+    print(f"Username:", matches.group(1))
+#this will check if the url is correct before it stores anything. but if there 
+
+if matches := re.search(r"^https?://(www\.)?twitter\.com/([a-z0-9_]]+)$", url, re.IGNORECASE):
+    print(f"USername:", matches.group(1))
+

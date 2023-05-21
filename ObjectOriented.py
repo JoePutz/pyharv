@@ -231,3 +231,89 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#Inheritance. Making it so that a class takes the traits from a different higher class
+#called parents and descendants
+
+class Professor:
+    def __init__(self, name, subject):
+        if not name:
+            raise ValueError("Missing name")
+        self.name = name
+        self.subject = subject
+#This is very similar to student. A lot of the same attributes between it and student.
+
+#So how to fix that? 
+
+class Wizard:
+    def __init__(self, name):
+        if not name:
+            raise ValueError("Missing name")
+        self.name = name
+
+class Student(Wizard): 
+    def __init__(self, name, house):
+        super().__init__(name)
+        self.house = house
+
+class Professor(Wizard):
+    def __init__(self, name, subject):
+        super().__init__(name)
+        self.subject = subject
+
+#super().__init__() means, go to the super class (in this case it is Wizard) and use it's init function
+
+wizard = Wizard("Albus")
+student = Student("Harry", "Gryffindor")
+professor = Professor("Severus", "Potions")
+#all the above will work. albus is just a wizard. 
+
+#operator overloading
+#taking common symbols like + or - and make them mean something else. 
+#like in regex or when joining two strings together. 
+
+class Vault:
+    def __init__(self, galleons=0, sickles=0, knuts=0):
+        self.galleons = galleons
+        self.sickles = sickles
+        self.knuts = knuts
+    
+    def __str__(self):
+        return f"{self.galleons} Galleons, {self.sickles} Sickles, {self.knuts} Knuts"
+
+potter = Vault(100, 50, 25)
+print(potter)
+
+weasley = Vault(25, 50, 100)
+print(weasley)
+
+galleons  = potter.galleons + weasley.galleons
+sickles = potter.sickles + weasley.sickles
+knuts = potter.knuts + weasley.knuts
+
+total = Vault(galleons, sickles, knuts)
+print(total)
+
+#That all works. 
+#But wouldn't be easy if I could just say potter + weasley = total? and it just worked?
+#We can do that.
+
+#object.__add__(self, other)
+
+class Vault:
+    def __init__(self, galleons=0, sickles=0, knuts=0):
+        self.galleons = galleons
+        self.sickles = sickles
+        self.knuts = knuts
+    
+    def __str__(self):
+        return f"{self.galleons} Galleons, {self.sickles} Sickles, {self.knuts} Knuts"
+    
+    def __add__(self, other):
+        galleons = self.galleons + other.galleons
+        sickles = self.sickles + other.sickles
+        knuts = self.knuts + other.knuts
+        return Vault(galleons, sickles, knuts)
+#This should make total = potter + weasley 
+
+#all the opperators can be found: docs.python.org/3/reference/datamodel.html#special-method-names

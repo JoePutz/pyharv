@@ -147,3 +147,87 @@ def get_student():
     patronus = input("Patronus: ")
     return Student(name, house, patronus)
 
+#Property: it allows us to make classes act in specific ways that can't be messed with as easily. 
+#Stops people getting around the requirements of a class
+#@property
+
+class Student:
+
+    # Getter: gets attribute
+    @property
+    def house(self):
+        return self._house
+        #Ths _house separates it from self.house directly. self.house will be used in init
+    
+    #Setter: sets attribute
+    @house.setter
+    def house(self, house):
+        if house not in ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]:
+            raise ValueError("Invalid house")
+        self._house = house
+    #So you no longer need to make errors for such values through the init or by direct change
+    #REMEMBER to only use _key in the setter and getter. But it can be done, but really it can be circumvented in python by doing it elsewhere. But dont!
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, name):
+        if not name:
+            raise ValueError("Missing name")
+        self._name = name
+
+#@classmethod: a method that will not have access to self. 
+#How does this work? Learning. We're going to use the Sorting Hat as an example
+import random
+
+class Hat:
+    def __init__(self):
+        self.houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+    
+    def sort(self, name):
+        print(name, "is in", random.choice(self.houses))
+
+hat = Hat()
+hat.sort("Harry")
+
+# a lot of the above is unnecessary. Let's clean it up
+
+class Hat: 
+    houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+
+    @classmethod
+    def sort(cls, name):
+        print(name, "is in", random.choice(cls.houses))
+
+Hat.sort("Harry")
+
+#And that's it. we don't need to create new hats. We just can refer to the class and the function in that class to use 
+#we use cls instead of self. cls just is teh short for class. cls.function() works so long as the function exists w/in the class
+#It creates the class as a container, because we aren't goign to be making more sorting hats. Just darwing on the function therein
+
+
+#So with all that info lets redo Student
+
+class Student:
+    def __init__(self, name, house): 
+        self.name = name
+        self.house = house
+    
+    def __str__(self):
+        return f"{self.name} from {self.house}"
+    
+    @classmethod
+    def get(cls):
+        name = input("Name: ")
+        house = input("House: ")
+        return cls(name, house)
+    #So this is the method for creating an object of the current class
+
+def main():
+    student = Student.get()
+    print(student)
+
+if __name__ == "__main__":
+    main()

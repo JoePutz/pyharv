@@ -273,3 +273,144 @@ f(galleons=100, sickles=50, knuts=25)
 #The above works. It's just 3 named/keyword arguments
 #docs.python.org/3/library/functions.html#print
 #we can see in the documentation of print, it starts with print(*objects) meaning it takes any number of objects, and it will print each of them.
+
+#map 
+#functional programming it's like object oriented but it doesn't have distorting the basic layer like object oriented is
+#map is sort of like functional programming
+
+def main():
+    yell("This is CS50")
+
+def yell(phrase):
+    print(phrase.upper())
+
+#Another way we can dop that
+def main():
+    yell(["this", "is", "cs50"])
+
+def yell(words):
+    uppercased = []
+    for word in words: 
+        uppercased.append(word.upper())
+    print(uppercased)
+    #this will print ["THIS", "IS", "CS50"]
+    #how to fix? 
+    print(*uppercased)
+    #as we learned w/ unpacking
+
+#another method:
+def main():
+    yell("this", "is", "cs50")
+    #notice no []
+
+def yell(*words):
+    uppercased = []
+    for word in words: 
+        uppercased.append(word.upper())
+    print(*uppercased)
+
+#OR
+def yell(*words):
+    uppercased = map(str.upper, words)
+    print(*uppercased)
+#This just prints THIS IS CS50. 
+#notice it is str.upper NOT str.upper() it is passing in a function, not using the function at that moment.
+
+#another way is using LIST COMPREHENSION
+#uses a map in one elegant line
+
+def yell(*words):
+    uppercased = [word.upper() for word in words]
+    #essentially loop w/in the list
+    print(*uppercased)
+
+students = [
+    {"name": "Hermione", "house": "Gryffindor"},
+    {"name": "Harry", "house": "Gryffindor"},
+    {"name": "Ron", "house": "Gryffindor"},
+    {"name": "Draco", "house": "Slytherin"}
+]
+
+gryffindors = [
+    student["name"] for studnet in students if studnet["house"] == "Gryffindor"
+]
+
+for gryffindor in sorted(gryffindors):
+    print(gryffindor)
+#This prints Harry\nHermione\nRon
+
+#OR
+def is_gryffindor(s):
+    return s["house"] == "Gryffindor"
+
+gryffindors = filter(is_gryffindor, students)
+#filter first takes the function that returns true or false. 
+
+for gryffindor in sorted(gryffindors, key=lambda s: s["name"]):
+    print(gryffindor["name"])
+
+
+#DICTIONARY COMPREHENSIONS
+
+students = ["Hermione", "Harry", "Ron"]
+
+gryffindor = []
+
+for student in students:
+    gryffindor.append({"name": student, "house": "Gryffindor"})
+
+print(gryffindor)
+#This creates the gryffindor list, from just names to create name, house
+
+#OR
+
+gryffindor = [{"name": student, "house": "Gryffindor"} for student in students]
+print(gryffindor)
+#This a list comprehension, the dictionary comprehension is similar but using dictionaries
+
+gryffindors = {student: "Gryffindor" for student in students}
+#{"Hermione": "Gryffindor", "Harry": "Gryffindor", "Ron": "Gryffindor"}
+
+#NEW THING
+for i in range(len(students)):
+    print(i+1, students[i])
+#gives a numbered list of students
+
+#This can be done with ENUMERATE
+
+for i, student in enumerate(students):
+    print(i + 1, student)
+
+#GENERATORS
+#generates values from pythong
+
+def main():
+    n = int(input("What's n? "))
+    for s in sheep(n):
+        print(s)
+
+def sheep(n):
+    flock = []
+    for i in range(n):
+        flock.append("🐑" * i)
+    return flock
+
+if __name__ == "__main__":
+    main()
+#This works, but it runs out of memory w/ really big numbers. Like a million sheep
+
+#This is where generators come in
+#doc.python.org/3/howto/functional.html#generators
+
+#most boils down to YIELD
+
+def sheep(n):
+    for i in range(n):
+        yield "🐑" * i
+        #This means return 1 value at a time. Generates just a little bit of data, but not all of it at once
+
+#ITERATORS
+#yield is returning iterators. 
+#asynchronous returning of segments. 
+
+# Ctr + C is how to stop the process if you're doing way too much. 
